@@ -53,4 +53,14 @@ Given /^I am in the building$/ do
   When "I enter \"east\""
 end
 
+Given /^I am at the grate$/ do
+  Given "I am in the building"
+   When "I pick up the keys"
+    And "I pick up the bottle"
+    And "I pick up the food"
+    And "I enter \"west\""
+    And "I enter \"south\""
+    And "I enter \"south\""
+    And "I enter \"south\""
+end
 

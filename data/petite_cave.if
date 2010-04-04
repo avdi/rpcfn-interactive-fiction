@@ -45,10 +45,56 @@ Room @valley:
     rocky bed.
   Exits:
     north to @end_of_road
+    south to @slit
 
+Room @slit:
+  Title: at slit in streambed
+  Description:
+    At your feet all the water of the stream splashes into a 2-inch slit
+    in the rock.  Downstream the streambed is bare rock.
+  Exits:
+    north to @valley
+    south to @depression
+
+Room @depression:
+  Title: outside grate
+  Description:
+    You are in a 20-foot depression floored with bare dirt.  Set into the
+    dirt is a strong steel grate mounted in concrete.  A dry streambed
+    leads into the depression.
+  Exits:
+    north to @slit
+    enter to @grate_chamber guarded by:
+      {{{
+      if blackboard[:grate_unlocked]
+        [true, ""]
+      else
+        [false, "You can't go through a locked steel grate!"]
+      end
+      }}}
+
+Room @grate_chamber:
+  Title: below the grate
+  Description:
+    You are in a small chamber beneath a 3x3 steel grate to the surface.
+    A low crawl over cobbles leads inward to the west.
+
+Action !unlock:
+  Terms: unlock grate, open grate
+  Code: 
+    {{{
+    if !player_in?('@depression')
+      ["There is no grate here", {}]
+    elsif !player_has?('$keys')
+      ["You have no keys!", {}]
+    else
+      ["The grate is now unlocked", {:grate_unlocked => true}]
+    end
+    }}}
+      
 Synonyms:
   north: n
-  sount: s
+  south: s
   east: e
   west: w
   look: l, examine

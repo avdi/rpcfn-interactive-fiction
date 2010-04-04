@@ -25,6 +25,25 @@ Feature: Lead the user on an epic adventure
     """
     You're at end of road again.
     """
+    When I enter "south"
+    Then I should see:
+    """
+    You are in a valley in the forest beside a stream tumbling along a
+    rocky bed.
+    """
+    When I enter "south"
+    Then I should see:
+    """
+    At your feet all the water of the stream splashes into a 2-inch slit
+    in the rock.  Downstream the streambed is bare rock.
+    """
+    When I enter "south"
+    Then I should see:
+    """
+    You are in a 20-foot depression floored with bare dirt.  Set into the
+    dirt is a strong steel grate mounted in concrete.  A dry streambed
+    leads into the depression.
+    """
   
   Scenario: Blocked movement
     When I enter "east"
@@ -108,3 +127,31 @@ Feature: Lead the user on an epic adventure
     | Small bottle  | water         |
     | Small bottle  | small bottle  |
     | Tasty food    | food          |
+
+  Scenario: Try to enter locked grate
+    Given I am at the grate
+     When I enter "enter"
+     Then I should see "You can't go through a locked steel grate!"
+
+  Scenario: Try to unlock grate in wrong room
+    Given I am in the building
+     When I enter "unlock grate"
+     Then I should see "There is no grate here"
+
+  Scenario: Try to unlock grate without key
+    Given I am at the grate
+     When I enter "drop keys"
+     When I enter "unlock grate"
+     Then I should see "You have no keys!"
+
+  Scenario: Unlock grate
+    Given I am at the grate
+     When I enter "unlock grate"
+     Then I should see "The grate is now unlocked"
+     When I enter "enter"
+     Then I should see:
+     """
+     You are in a small chamber beneath a 3x3 steel grate to the surface.
+     A low crawl over cobbles leads inward to the west.
+     """
+     
