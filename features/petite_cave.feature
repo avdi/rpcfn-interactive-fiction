@@ -102,11 +102,9 @@ Feature: Lead the user on an epic adventure
   Scenarios: object synonyms
     | object        | term          |
     | Brass lantern | lantern       |
-    | Brass lantern | brass lantern |
     | Brass lantern | lamp          |
     | Brass lantern | brass lamp    |
     | Small bottle  | bottle        |
     | Small bottle  | water         |
     | Small bottle  | small bottle  |
-    | Tasty food    | tasty food    |
     | Tasty food    | food          |

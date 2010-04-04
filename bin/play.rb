@@ -96,7 +96,7 @@ class Game
 
   def pick_up_object!(name)    
     Game.log "Picking up #{name}"
-    identifier = "$" + name.to_s
+    identifier = name.to_s
     if objects_here.include?(identifier)
       player_inventory << identifier
       objects_here.delete(identifier)
@@ -110,7 +110,7 @@ class Game
 
   def drop_object!(name)
     Game.log "Dropping #{name}"
-    identifier = "$" + name.to_s
+    identifier = name.to_s
     if player_inventory.include?(identifier)
       objects_here << identifier
       player_inventory.delete(identifier)
@@ -159,10 +159,13 @@ class Game
   end
 
   def expand_synonyms(command)
-    synonyms.each_pair do |synonym, term|
-      command = command.gsub(/\b#{synonym}\b/, term)
+    # Try longest term matches first
+    synonyms.keys.sort_by{|s| s.size}.reverse.each do |synonym|
+      term = synonyms[synonym]
+      # The FNORDs are to prevent double-substitution
+      command = command.gsub(/\b#{synonym}\b/, "FNORD#{term}FNORD")
     end
-    command
+    command.gsub("FNORD", "")
   end
 end
 
@@ -232,8 +235,12 @@ class Story
     object = GameObject.new
     scan_attributes! do |attribute|
       case attribute
-      when "Title"
-        object.title = scanner.scan_until(/\n/).strip
+      when "Terms"
+        object.terms = scanner.scan_until(/\n/).strip.split(/\s*,\s*/)
+        object.title = object.terms.first
+        object.terms.each do |term|
+          synonyms[term.downcase] = identifier
+        end
         Game.log "Set #{identifier} title: #{object.title}"
       when "Description"
         object.description = scanner.scan_until(/\n/).strip
@@ -313,7 +320,7 @@ class Room < Struct.new(:title, :description, :exits, :objects, :visited)
   end
 end
 
-class GameObject < Struct.new(:title, :description)
+class GameObject < Struct.new(:title, :description, :terms)
 end
 
 if $PROGRAM_NAME == __FILE__

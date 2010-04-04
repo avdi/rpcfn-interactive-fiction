@@ -23,19 +23,19 @@ Room @building:
     $water_bottle
 
 Object $keys:
-  Title: Set of keys
+  Terms: Set of keys, keys
   Description: There are some keys on the ground here.
 
 Object $lamp:
-  Title: Brass lantern
+  Terms: Brass lantern, brass lamp, lamp, lantern
   Description: There is a shiny brass lamp nearby.
 
 Object $food:
-  Title: Tasty food
+  Terms: Tasty food, food
   Description: There is food here.
 
 Object $water_bottle:
-  Title: Small bottle
+  Terms: Small bottle, bottle, water, water bottle
   Description: There is a bottle of water here.
 
 Room @valley:
@@ -52,6 +52,3 @@ Synonyms:
   east: e
   west: w
   look: l, examine
-  food: tasty food
-  water_bottle: water bottle, water, bottle, small bottle
-  lamp: lantern, brass lantern, brass lamp
