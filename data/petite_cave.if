@@ -1,0 +1,47 @@
+Room @end_of_road:
+  Title: at the end of road again
+  Description:
+    You are standing at the end of a road before a small brick building.
+    Around you is a forest.  A small stream flows out of the building and
+    down a gully.
+  Exits:
+    east to @building
+    enter to @building
+    south to @valley
+
+Room @building:
+  Title: inside building
+  Description:
+    You are inside a building, a well house for a large spring.
+  Exits:
+    west to @end_of_road
+    exit to @end_of_road
+  Objects:
+    $keys
+    $lamp
+    $food
+    $water_bottle
+
+Object $keys:
+  Title: Set of keys
+  Description: There are some keys on the ground here.
+
+Object $lamp:
+  Title: Brass lantern
+  Description: There is a shiny brass lamp nearby.
+
+Object $food:
+  Title: Tasty food
+  Description: There is food here.
+
+Object $water_bottle:
+  Title: Small bottle
+  Description: There is a bottle of water here.
+
+Room @valley:
+  Title: in valley
+  Description:
+    You are in a valley in the forest beside a stream tumbling along a
+    rocky bed.
+  Exits:
+    north to @end_of_road
