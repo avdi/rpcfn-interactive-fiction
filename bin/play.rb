@@ -69,8 +69,7 @@ class Game
     when /^(drop|put down)\s+(.*)$/
       drop_object!($2)
     when *story.exits
-      move_player!(command)
-      say_location
+      move_player!(command) and say_location
     when *actions.keys
       message, blackboard = safe_eval(actions[command].code)
       if message then say message end

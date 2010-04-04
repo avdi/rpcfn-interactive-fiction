@@ -1,6 +1,6 @@
 Feature: Lead the user on an epic adventure
   In order to kill some time while waiting for a build to finish
-  As a geek
+  As an old-school geek
   I want to play an interactive fiction game
 
   Background:
@@ -52,6 +52,7 @@ Feature: Lead the user on an epic adventure
     """
     There is no way to go in that direction
     """
+     And I should not see "inside building"
 
   Scenario: Looking around
     When I enter "east"
@@ -121,6 +122,7 @@ Feature: Lead the user on an epic adventure
   Scenarios: object synonyms
     | object        | term          |
     | Brass lantern | lantern       |
+    | Brass lantern | brass lantern |
     | Brass lantern | lamp          |
     | Brass lantern | brass lamp    |
     | Small bottle  | bottle        |
@@ -128,30 +130,3 @@ Feature: Lead the user on an epic adventure
     | Small bottle  | small bottle  |
     | Tasty food    | food          |
 
-  Scenario: Try to enter locked grate
-    Given I am at the grate
-     When I enter "enter"
-     Then I should see "You can't go through a locked steel grate!"
-
-  Scenario: Try to unlock grate in wrong room
-    Given I am in the building
-     When I enter "unlock grate"
-     Then I should see "There is no grate here"
-
-  Scenario: Try to unlock grate without key
-    Given I am at the grate
-     When I enter "drop keys"
-     When I enter "unlock grate"
-     Then I should see "You have no keys!"
-
-  Scenario: Unlock grate
-    Given I am at the grate
-     When I enter "unlock grate"
-     Then I should see "The grate is now unlocked"
-     When I enter "enter"
-     Then I should see:
-     """
-     You are in a small chamber beneath a 3x3 steel grate to the surface.
-     A low crawl over cobbles leads inward to the west.
-     """
-     

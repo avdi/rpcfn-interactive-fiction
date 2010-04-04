@@ -1,0 +1,3 @@
+default: features/petite_cave.feature
+extra_credit: features/petite_cave.feature features/guards_and_actions.feature
+
