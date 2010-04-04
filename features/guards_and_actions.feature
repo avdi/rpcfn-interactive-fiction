@@ -32,4 +32,6 @@ Feature: Guards and actions
      You are in a small chamber beneath a 3x3 steel grate to the surface.
      A low crawl over cobbles leads inward to the west.
      """
+     When I enter "exit"
+     Then I should be outside grate
      
