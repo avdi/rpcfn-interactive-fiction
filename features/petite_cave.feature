@@ -57,3 +57,56 @@ Feature: Lead the user on an epic adventure
     Then I should be at end of road
     When I enter "l"
     Then I should see "You are standing at the end of a road"
+
+  Scenario: Show objects
+    When I enter "east"
+    Then I should see "There are some keys on the ground here."
+     And I should see "There is a shiny brass lamp nearby."
+     And I should see "There is food here."
+    When I enter "look"
+    Then I should see "There are some keys on the ground here."
+     And I should see "There is a shiny brass lamp nearby."
+     And I should see "There is food here."
+
+  Scenario: Starting inventory
+    When I enter "inventory"
+    Then I should see "You're not carrying anything"
+     And I should not see "keys"
+
+  Scenario: Pick up an object
+    Given I am in the building
+     When I enter "get keys"
+     Then I should see "OK"
+     When I enter "look"
+     Then I should not see "keys"
+     When I enter "inventory"
+     Then I should see "Set of keys"
+
+  Scenario: Drop an object
+    When I enter "look"
+    Then I should not see "keys"
+    When I enter "east"
+     And I enter "get keys"
+     And I enter "west"
+     And I enter "drop keys"
+     And I enter "look"
+    Then I should see "There are some keys on the ground here."
+    When I enter "inventory"
+    Then I should not see "keys"
+
+  Scenario Outline:
+    Given I am in the building
+     When I pick up the <term>
+     Then I should have the <object>
+
+  Scenarios: object synonyms
+    | object        | term          |
+    | Brass lantern | lantern       |
+    | Brass lantern | brass lantern |
+    | Brass lantern | lamp          |
+    | Brass lantern | brass lamp    |
+    | Small bottle  | bottle        |
+    | Small bottle  | water         |
+    | Small bottle  | small bottle  |
+    | Tasty food    | tasty food    |
+    | Tasty food    | food          |

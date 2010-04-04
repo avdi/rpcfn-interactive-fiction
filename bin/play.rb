@@ -4,6 +4,7 @@ require 'strscan'
 require 'English'
 require 'logger'
 require 'forwardable'
+require 'set'
 
 class Game
   extend Forwardable
@@ -23,9 +24,10 @@ class Game
   end
     
 
-  attr_reader :story, :input, :output
+  attr_reader :story, :input, :output, :player_inventory
 
-  def_delegators :story, :synonyms
+  def_delegators :story, :synonyms, :object
+  def_delegator :player_location, :objects, :objects_here
 
   def initialize(story_path, options={})
     @story_path       = Pathname(story_path)
@@ -35,6 +37,7 @@ class Game
     @output           = options.fetch(:output) { $stdout }
     @ended            = false
     @player_room_name = :unset
+    @player_inventory = Set.new
     @logger           = options.fetch(:logger) { lambda{} }
   end
 
@@ -56,8 +59,14 @@ class Game
     case command
     when "q", "quit"
       ended!
-    when "look"
+    when "look", "l"
       say_location(true)
+    when "inventory", "i"
+      say_inventory
+    when /^(get|take|pick up)\s+(.*)$/
+      pick_up_object!($2)
+    when /^(drop|put down)\s+(.*)$/
+      drop_object!($2)
     when *story.exits
       move_player!(command)
       say_location
@@ -81,7 +90,36 @@ class Game
       return false
     end
     @player_room_name = new_room
+    Game.log "Now in #{new_room}: #{player_location.inspect}"
     true
+  end
+
+  def pick_up_object!(name)    
+    Game.log "Picking up #{name}"
+    identifier = "$" + name.to_s
+    if objects_here.include?(identifier)
+      player_inventory << identifier
+      objects_here.delete(identifier)
+      say "OK"
+      true
+    else
+      say "I see no #{name} here"
+      false
+    end
+  end
+
+  def drop_object!(name)
+    Game.log "Dropping #{name}"
+    identifier = "$" + name.to_s
+    if player_inventory.include?(identifier)
+      objects_here << identifier
+      player_inventory.delete(identifier)
+      say "OK"
+      true
+    else
+      say "I see no #{name} here"
+      false
+    end
   end
 
   def player_location
@@ -102,14 +140,29 @@ class Game
       say "You're " + player_location.title + "."
     else
       say player_location.description
-      player_location.visited = true
+    end
+    player_location.objects.each do |object_name|
+      say object(object_name).description
+    end
+    player_location.visited = true
+  end
+
+  def say_inventory
+    if player_inventory.empty?
+      say "You're not carrying anything"
+    else
+      say "You are currently holding the following:"
+      player_inventory.each do |object_name|
+        say object(object_name).title
+      end
     end
   end
 
   def expand_synonyms(command)
-    command.gsub(/\w+/) {|word|
-      if synonyms.key?(word) then synonyms[word].to_s else word end
-    }
+    synonyms.each_pair do |synonym, term|
+      command = command.gsub(/\b#{synonym}\b/, term)
+    end
+    command
   end
 end
 
@@ -188,6 +241,7 @@ class Story
       else raise "Unrecognized attribute '#{attribute}'"
       end
     end
+    objects[identifier] = object
   end
 
   def scan_synonyms!
@@ -218,7 +272,7 @@ class Story
 
   def scan_objects!
     next_line!
-    while scanner.scan(/\s+($\w+).*\n/)
+    while scanner.scan(/\s+(\$\w+).*\n/)
       yield scanner[1]
     end
   end
@@ -227,6 +281,10 @@ class Story
     rooms.inject([]){|exits, (room_id, room)| 
       exits.concat(room.exits.keys)
     }
+  end
+
+  def object(name)
+    objects.fetch(name) do raise "No such object: #{name}" end
   end
 
   private
@@ -246,7 +304,7 @@ class Room < Struct.new(:title, :description, :exits, :objects, :visited)
   def initialize(*args)
     super(*args)
     self.exits   ||= {}
-    self.objects ||= []
+    self.objects ||= Set.new
     self.visited ||= false
   end
 

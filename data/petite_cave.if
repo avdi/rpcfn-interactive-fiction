@@ -52,4 +52,6 @@ Synonyms:
   east: e
   west: w
   look: l, examine
-
+  food: tasty food
+  water_bottle: water bottle, water, bottle, small bottle
+  lamp: lantern, brass lantern, brass lamp
