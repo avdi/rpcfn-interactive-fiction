@@ -27,3 +27,12 @@ When /^I enter "([^\"]*)"$/ do |command|
   @out.string = ""
   @game.execute_one_command!
 end
+
+Then /^I should be (.*)$/ do |text|
+  @out.string.should =~ /^(You are|You're).*#{text}/i
+end
+
+Then /^I should see "([^\"]*)"$/ do |text|
+  @out.string.should =~ Regexp.new(text)
+end
+

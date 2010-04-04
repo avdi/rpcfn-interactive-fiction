@@ -3,8 +3,11 @@ require 'pathname'
 require 'strscan'
 require 'English'
 require 'logger'
+require 'forwardable'
 
 class Game
+  extend Forwardable
+
   class << self
     def log(message)
       logger.debug(message)
@@ -21,6 +24,8 @@ class Game
     
 
   attr_reader :story, :input, :output
+
+  def_delegators :story, :synonyms
 
   def initialize(story_path, options={})
     @story_path       = Pathname(story_path)
@@ -46,10 +51,13 @@ class Game
   end
 
   def execute_one_command!
-    command = @input.readline.strip.downcase
+    command = expand_synonyms(@input.readline.strip.downcase)
+    Game.log "Command: #{command}"
     case command
     when "q", "quit"
       ended!
+    when "look"
+      say_location(true)
     when *story.exits
       move_player!(command)
       say_location
@@ -89,13 +97,19 @@ class Game
   end
 
 
-  def say_location
-    if player_location.visited?
-      say "You're " + player_location.title
+  def say_location(full=false)
+    if player_location.visited? && !full
+      say "You're " + player_location.title + "."
     else
       say player_location.description
       player_location.visited = true
     end
+  end
+
+  def expand_synonyms(command)
+    command.gsub(/\w+/) {|word|
+      if synonyms.key?(word) then synonyms[word].to_s else word end
+    }
   end
 end
 
@@ -107,25 +121,27 @@ class Story
   end
 
 
-  attr_reader :scanner, :starting_room, :rooms, :objects
+  attr_reader :scanner, :starting_room, :rooms, :objects, :synonyms
 
   def initialize(text)
-    @text    = text
-    @scanner = StringScanner.new(@text)
-    @rooms   = {}
-    @objects = {}
+    @text          = text
+    @scanner       = StringScanner.new(@text)
+    @rooms         = {}
+    @objects       = {}
     @starting_room = :unset
+    @synonyms      = {}
   end
 
   # Load a Story from the provided text
   def load
-    while scanner.scan_until(/^(Room|Object)\s+([@$]\w+):\s*\n/)
+    while scanner.scan_until(/^(Room|Object|Synonyms)(\s+([@$]\w+))?:\s*\n/)
       type       = scanner[1]
-      identifier = scanner[2]
+      identifier = scanner[3]
       Game.log "Processing #{type} definition for #{identifier}"
       case type
       when "Room"   then add_room!(identifier)
       when "Object" then add_object!(identifier)
+      when "Synonyms" then scan_synonyms!
       else raise "Unrecognized definition of '#{type}'"
       end
     end
@@ -171,6 +187,15 @@ class Story
         Game.log "Set #{identifier} desc: #{object.description}"
       else raise "Unrecognized attribute '#{attribute}'"
       end
+    end
+  end
+
+  def scan_synonyms!
+    while scanner.scan(/\s+(\w+):(.*)\n/)
+      word     = scanner[1]
+      synonyms = scanner[2].strip.split(/\s*,\s*/)
+      Game.log "Adding synonyms for #{word}: #{synonyms.inspect}"
+      synonyms.each do |syn| self.synonyms[syn] = word end
     end
   end
 

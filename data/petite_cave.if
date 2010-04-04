@@ -1,5 +1,5 @@
 Room @end_of_road:
-  Title: at the end of road again
+  Title: at end of road again
   Description:
     You are standing at the end of a road before a small brick building.
     Around you is a forest.  A small stream flows out of the building and
@@ -45,3 +45,11 @@ Room @valley:
     rocky bed.
   Exits:
     north to @end_of_road
+
+Synonyms:
+  north: n
+  sount: s
+  east: e
+  west: w
+  look: l, examine
+
