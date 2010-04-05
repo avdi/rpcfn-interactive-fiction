@@ -20,4 +20,6 @@ task :default => ['cucumber:default']
 desc "Extra credit tests"
 task :extra_credit => ['cucumber:extra_credit']
 
+# Make cucumber.el happy
+task :cucumber => ['cucumber:extra_credit']
     
