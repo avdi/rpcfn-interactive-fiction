@@ -125,8 +125,10 @@
 
     1. Clone the Github project avdi/rpcfn-interactive-fiction
        : git clone git://github.com/avdi/rpcfn-interactive-fiction.git
+
     2. Install Cucumber, if you don't have it already
        : gem install cucumber
+
     3. Run the acceptance tests by running Rake:
        : cd rpcfn-interactive-fiction
        : rake
