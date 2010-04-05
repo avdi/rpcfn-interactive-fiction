@@ -123,7 +123,7 @@
 *** Getting Started
     Here are steps for getting started on your entry:
 
-    1. Clone the Github project avdi/rpcfn-interactive-fiction
+   1. Clone the Github project avdi/rpcfn-interactive-fiction
        : git clone git://github.com/avdi/rpcfn-interactive-fiction.git
 
     2. Install Cucumber, if you don't have it already
@@ -151,6 +151,7 @@
 
    The code executed by the guard/action part of the story file expects a simple
    API to be made available by your implementation:
+
    * =#blackboard= should return a hash. The blackboard is a place for story
      scripts to stow arbitrary story-specific values.
    * =#player_in?(room_id)= should return whether the player is in the specified
