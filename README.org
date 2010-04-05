@@ -126,19 +126,19 @@
    1. Clone the Github project avdi/rpcfn-interactive-fiction
        : git clone git://github.com/avdi/rpcfn-interactive-fiction.git
 
-    2. Install Cucumber, if you don't have it already
+   2. Install Cucumber, if you don't have it already
        : gem install cucumber
 
-    3. Run the acceptance tests by running Rake:
+   3. Run the acceptance tests by running Rake:
        : cd rpcfn-interactive-fiction
        : rake
        You should see failure messages. That's because the implementation hasn't
        been written yet! Making the tests pass is up to you.
-    4. I've provided a skeleton =bin/play/rb= to start you off. Edit that file
+   4. I've provided a skeleton =bin/play/rb= to start you off. Edit that file
        to implement your interactive fiction engine.
-    5. Drive your development by running =rake= periodically to see what's left
+   5. Drive your development by running =rake= periodically to see what's left
        to implement.
-    7. Make sure to manually test your implementation by running it standalone:
+   7. Make sure to manually test your implementation by running it standalone:
        : ruby bin/play.rb data/petite_cave.if
 
 *** Extra Credit
@@ -152,16 +152,16 @@
    The code executed by the guard/action part of the story file expects a simple
    API to be made available by your implementation:
 
-   * =#blackboard= should return a hash. The blackboard is a place for story
+   - =#blackboard= should return a hash. The blackboard is a place for story
      scripts to stow arbitrary story-specific values.
-   * =#player_in?(room_id)= should return whether the player is in the specified
+   - =#player_in?(room_id)= should return whether the player is in the specified
      room.
-   * =#player_has?(object_id)= should return whether the player has the
+   - =#player_has?(object_id)= should return whether the player has the
      specified item in their inventory.
-   * Exit guard clauses return an =Array= of [ALLOW, MESSAGE]. ALLOW is a
+   - Exit guard clauses return an =Array= of [ALLOW, MESSAGE]. ALLOW is a
      boolean indicating whether the player's attempt to exit the room was
      allowed. MESSAGE must be shown to the user if provided.
-   * Action scripts return an =Array= of [MESSAGE, BLACKBOARD]. Message must be
+   - Action scripts return an =Array= of [MESSAGE, BLACKBOARD]. Message must be
      shown to the user if non-nil. The values in BLACKBOARD should be merged
      into the =Hash= returned by =#blackboard=.
 
@@ -171,21 +171,21 @@
   scripts are executed under =$SAFE= level 4.
 
 *** Requirements
-    * You must use only Ruby standard libraries in your implementation.
-    * Your entry must at minimum pass the tests in =features/petite_cave.feature=
-    * Your entry must be capable of running as a standalone executable. It must
+    - You must use only Ruby standard libraries in your implementation.
+    - Your entry must at minimum pass the tests in =features/petite_cave.feature=
+    - Your entry must be capable of running as a standalone executable. It must
       accept a single argument, the path of the story file. E.g.:
       : ruby bin/play.rb data/petite_cave.if
-    * Your entry must run under Ruby 1.8.7. If it runs under 1.9, all the
+    - Your entry must run under Ruby 1.8.7. If it runs under 1.9, all the
       better.
 
 *** Hints
     
     There are a number of potential ways to go about parsing the story DSL:
-    * You could write a basic [[http://en.wikipedia.org/wiki/Recursive_descent_parser][recursive-descent parser]].
-    * You could use regular expression methods, like [[http://ruby-doc.org/core/classes/String.html#M000812][=String#scan=]]
-    * You could use Ruby's standard [[http://ruby-doc.org/core/classes/StringScanner.html][StringScanner]] library
-    * You could use regular expression substitutions to convert the text into
+    - You could write a basic [[http://en.wikipedia.org/wiki/Recursive_descent_parser][recursive-descent parser]].
+    - You could use regular expression methods, like [[http://ruby-doc.org/core/classes/String.html#M000812][=String#scan=]]
+    - You could use Ruby's standard [[http://ruby-doc.org/core/classes/StringScanner.html][StringScanner]] library
+    - You could use regular expression substitutions to convert the text into
       valid Ruby code, and then [[http://ruby-doc.org/core/classes/Kernel.html#M005922][=#eval()=]] the story definition.
     
     
