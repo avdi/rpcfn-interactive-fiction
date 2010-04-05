@@ -2,7 +2,7 @@
 *** Introduction
     [[http://en.wikipedia.org/wiki/Interactive_fiction][Interactive fiction]] (IF) games, also known as text adventures, are computer
     games in which you must rely on your imagination to provide the
-    visuals. They represent one of the earliest forms of computer
+    visuals. They represent one of the longest-lived forms of computer
     entertainment. Originating in the 1970s, they reached their zenith in the
     1980s, with classic Infocom games such as Zork and The Hitchiker's Guide to
     the Galaxy. At their best, interactive fiction games offer rich interaction,
@@ -35,7 +35,7 @@
 
 *** The Challenge
     In this challenge, you'll implement an interactive fiction game which mimics
-    a tiny subset of the grandaddy of all text adventures, Collossal Cave. In
+    the first few rooms of the grandaddy of all text adventures, Collossal Cave. In
     order to succeed, your program will need to read in a "story" in the form of
     a simple DSL, interpret user commands, and track the player's progress and
     inventory. If you get all that working without too much trouble, I've also
