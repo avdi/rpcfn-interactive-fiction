@@ -166,7 +166,7 @@
      into the =Hash= returned by =#blackboard=.
 
   The reason story scripts do not directly set values in the blackboard is so
-  that it is possible to implement story script execution inside of [[http://www.ruby-doc.org/docs/ProgrammingRuby/taint.html][=$SAFE=
+  that it is possible to implement story script execution inside of [[http://www.ruby-doc.org/docs/ProgrammingRuby/taint.html][$SAFE
   jails]]. For extra, *extra* credit, write your implementation so that all story
   scripts are executed under =$SAFE= level 4.
 
@@ -176,6 +176,7 @@
     - Your entry must be capable of running as a standalone executable. It must
       accept a single argument, the path of the story file. E.g.:
       : ruby bin/play.rb data/petite_cave.if
+
     - Your entry must run under Ruby 1.8.7. If it runs under 1.9, all the
       better.
 
