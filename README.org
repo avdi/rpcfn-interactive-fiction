@@ -1,17 +1,19 @@
 * Challenge: Interactive Fiction
 *** Introduction
-    [[http://en.wikipedia.org/wiki/Interactive_fiction][Interactive fiction]] (IF), also known as text adventures, are computer games in
-    which you must rely on your imagination to provide the visuals. They
-    represent one of the earliest forms of computer entertainment. Originating
-    in the 1970s, they reached their zenith in the 1980s, with classic Infocom
-    games such as Zork and The Hitchiker's Guide to the Galaxy. While most
-    gamers have moved on to more graphically rich games, there remains a [[http://www.ifarchive.org/][strong
-    community]] of interactive fiction writers and players to this day.
+    [[http://en.wikipedia.org/wiki/Interactive_fiction][Interactive fiction]] (IF) games, also known as text adventures, are computer
+    games in which you must rely on your imagination to provide the
+    visuals. They represent one of the earliest forms of computer
+    entertainment. Originating in the 1970s, they reached their zenith in the
+    1980s, with classic Infocom games such as Zork and The Hitchiker's Guide to
+    the Galaxy. At their best, interactive fiction games offer rich interaction,
+    engrossing storylines, and phenomenal writing. While most gamers have moved
+    on to more graphically rich games, there remains a [[http://www.ifarchive.org/][strong community]] of
+    interactive fiction writers and players to this day.
 
-    I've always loved interactive fiction. Like most kids getting into
-    programming, I taught myself to program in order to write my own games. The
-    very first program I ever wrote was a tiny text adventure game, written in
-    the [[http://en.wikipedia.org/wiki/REXX][REXX]] programming language.
+    I've always loved interactive fiction. Like most people who got into
+    programming young, as a teenager I first taught myself to program in order
+    to write my own games. The very first program I ever wrote was a tiny text
+    adventure game, written in the [[http://en.wikipedia.org/wiki/REXX][REXX]] programming language.
 
     While I've since moved on to writing other kinds of software, I still think
     writing interactive fiction engines is a great way to get a feel for a new
@@ -22,7 +24,7 @@
 
     In order to write a successful IF engine, you must deal with challenges such
     as:
-    - Modeling the interactions of real-world objects (such as rooms, objects,
+    - Modeling the interactions of real-world objects (such as rooms, items,
       and players) in software.
     - Interpreting a Domain-Specific Language (DSL) in order to load games.
     - Dealing with unpredictable user input.
