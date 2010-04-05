@@ -51,10 +51,10 @@
 :     There is no way to go in that direction.
 :     > east
 :     You are inside a building, a well house for a large spring.
-:     > There are some keys on the ground here.
-:     > There is food here.
-:     > There is a shiny brass lamp nearby.
-:     > There is a bottle of water here.
+:     There are some keys on the ground here.
+:     There is food here.
+:     There is a shiny brass lamp nearby.
+:     There is a bottle of water here.
 :     > get keys
 :     OK
 :     > get food
@@ -65,10 +65,10 @@
 :     OK
 :     > inventory
 :     You are currently holding the following:
-:     > Set of keys
-:     > Tasty food
-:     > Brass lantern
-:     > Small bottle
+:     Set of keys
+:     Tasty food
+:     Brass lantern
+:     Small bottle
 :     > west
 :     You're at end of road again.
 :     > s
