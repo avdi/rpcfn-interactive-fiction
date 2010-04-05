@@ -120,26 +120,22 @@
 :   Terms: Brass lantern, brass lamp, lamp, lantern
 :   Description: There is a shiny brass lamp nearby.
 
+    The full story file can be found at =data/petite_cave.if=.
+
 *** Getting Started
     Here are steps for getting started on your entry:
 
-   1. Clone the Github project avdi/rpcfn-interactive-fiction
-       : git clone git://github.com/avdi/rpcfn-interactive-fiction.git
+   1. Clone the Github project avdi/rpcfn-interactive-fiction: =git clone git://github.com/avdi/rpcfn-interactive-fiction.git=
+   2. Install Cucumber, if you don't have it already: =gem install cucumber=
+   3. Run the acceptance tests by running Rake: =cd rpcfn-interactive-fiction; rake=
 
-   2. Install Cucumber, if you don't have it already
-       : gem install cucumber
-
-   3. Run the acceptance tests by running Rake:
-       : cd rpcfn-interactive-fiction
-       : rake
-       You should see failure messages. That's because the implementation hasn't
-       been written yet! Making the tests pass is up to you.
+      You should see failure messages. That's because the implementation hasn't
+      been written yet! Making the tests pass is up to you.
    4. I've provided a skeleton =bin/play/rb= to start you off. Edit that file
        to implement your interactive fiction engine.
    5. Drive your development by running =rake= periodically to see what's left
        to implement.
-   7. Make sure to manually test your implementation by running it standalone:
-       : ruby bin/play.rb data/petite_cave.if
+   7. Make sure to manually test your implementation by running it standalone: =ruby bin/play.rb data/petite_cave.if=
 
 *** Extra Credit
    If you want an extra challenge, run
@@ -177,8 +173,8 @@
       accept a single argument, the path of the story file. E.g.:
       : ruby bin/play.rb data/petite_cave.if
 
-    - Your entry must run under Ruby 1.8.7. If it runs under 1.9, all the
-      better.
+    - Your entry must run under Ruby 1.8.7. If it runs under 1.9 as well, all
+      the better.
 
 *** Hints
     
@@ -189,4 +185,6 @@
     - You could use regular expression substitutions to convert the text into
       valid Ruby code, and then [[http://ruby-doc.org/core/classes/Kernel.html#M005922][=#eval()=]] the story definition.
     
-    
+*** Conclusion
+    Feel free to [[mailto:avdi@avdi.org][contact me]] if something about the challenge is unclear. Good
+    Luck, and happy hacking!
