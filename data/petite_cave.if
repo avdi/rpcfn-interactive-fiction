@@ -1,5 +1,5 @@
 Room @end_of_road:
-  Title: at the end of road again
+  Title: at end of road again
   Description:
     You are standing at the end of a road before a small brick building.
     Around you is a forest.  A small stream flows out of the building and
@@ -23,19 +23,19 @@ Room @building:
     $water_bottle
 
 Object $keys:
-  Title: Set of keys
+  Terms: Set of keys, keys
   Description: There are some keys on the ground here.
 
 Object $lamp:
-  Title: Brass lantern
+  Terms: Brass lantern, brass lamp, lamp, lantern
   Description: There is a shiny brass lamp nearby.
 
 Object $food:
-  Title: Tasty food
+  Terms: Tasty food, food
   Description: There is food here.
 
 Object $water_bottle:
-  Title: Small bottle
+  Terms: Small bottle, bottle, water, water bottle
   Description: There is a bottle of water here.
 
 Room @valley:
@@ -45,3 +45,58 @@ Room @valley:
     rocky bed.
   Exits:
     north to @end_of_road
+    south to @slit
+
+Room @slit:
+  Title: at slit in streambed
+  Description:
+    At your feet all the water of the stream splashes into a 2-inch slit
+    in the rock.  Downstream the streambed is bare rock.
+  Exits:
+    north to @valley
+    south to @depression
+
+Room @depression:
+  Title: outside grate
+  Description:
+    You are in a 20-foot depression floored with bare dirt.  Set into the
+    dirt is a strong steel grate mounted in concrete.  A dry streambed
+    leads into the depression.
+  Exits:
+    north to @slit
+    enter to @grate_chamber guarded by:
+      {{{
+      if blackboard[:grate_unlocked]
+        [true, ""]
+      else
+        [false, "You can't go through a locked steel grate!"]
+      end
+      }}}
+
+Room @grate_chamber:
+  Title: below the grate
+  Description:
+    You are in a small chamber beneath a 3x3 steel grate to the surface.
+    A low crawl over cobbles leads inward to the west.
+  Exits:
+    exit to @depression
+
+Action !unlock:
+  Terms: unlock grate, open grate
+  Code: 
+    {{{
+    if !player_in?('@depression')
+      ["There is no grate here", {}]
+    elsif !player_has?('$keys')
+      ["You have no keys!", {}]
+    else
+      ["The grate is now unlocked", {:grate_unlocked => true}]
+    end
+    }}}
+      
+Synonyms:
+  north: n
+  south: s
+  east: e
+  west: w
+  look: l, examine

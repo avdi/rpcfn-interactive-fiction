@@ -27,3 +27,40 @@ When /^I enter "([^\"]*)"$/ do |command|
   @out.string = ""
   @game.execute_one_command!
 end
+
+When /^I pick up the (.*)$/ do |term|
+  When "I enter \"take #{term}\""
+end
+
+Then /^I should be (.*)$/ do |text|
+  @out.string.should =~ /^(You are|You're).*#{text}/i
+end
+
+Then /^I should see "([^\"]*)"$/ do |text|
+  @out.string.should =~ Regexp.new(text)
+end
+
+Then /^I should not see "([^\"]*)"$/ do |text|
+  @out.string.should_not =~ Regexp.new(text)
+end
+
+Then /^I should have the (.*)$/ do |object|
+  When "I enter \"inventory\""
+  Then "I should see \"#{object}\""
+end
+
+Given /^I am in the building$/ do
+  When "I enter \"east\""
+end
+
+Given /^I am at the grate$/ do
+  Given "I am in the building"
+   When "I pick up the keys"
+    And "I pick up the bottle"
+    And "I pick up the food"
+    And "I enter \"west\""
+    And "I enter \"south\""
+    And "I enter \"south\""
+    And "I enter \"south\""
+end
+

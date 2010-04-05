@@ -1,0 +1,163 @@
+* Challenge: Interactive Fiction
+*** Introduction
+    Interactive fiction, also known as text adventures, are computer games in
+    which you must rely on your imagination to provide the visuals. They
+    represent one of the earliest forms of computer entertainment. Originating
+    in the 1970s, they reached their zenith in the 1980s, with classic Infocom
+    games such as Zork and The Hitchiker's Guide to the Galaxy. While most
+    gamers have moved on to more graphically rich games, there remains a strong
+    community of interactive fiction writers and players to this day.
+
+    I've always loved interactive fiction. Like most kids getting into
+    programming, I taught myself to program in order to write my own games. The
+    very first program I ever wrote was a tiny text adventure game, written in
+    the REXX programming language.
+
+    While I've since moved on to writing other kinds of software, I still think
+    writing interactive fiction engines is a great way to get a feel for a new
+    language. Unlike many canned programming challenges which primarily test
+    your knowledge of pure computer science concepts, writing a text adventure
+    game exercises many skills which translate directly to typical real-world
+    applications.
+
+    In order to write a successful IF engine, you must deal with challenges such
+    as:
+    - Modeling the interactions of real-world objects (such as rooms, objects,
+      and players) in software.
+    - Interpreting a Domain-Specific Language (DSL) in order to load games.
+    - Dealing with unpredictable user input.
+
+    Writing an IF engine is a fun way to learn how to tackle these problems in a
+    new language, and the skills you come away with can be applied directly to
+    a wide array of applications.
+
+*** The Challenge
+    In this challenge, you'll implement an interactive fiction game which mimics
+    a tiny subset of the grandaddy of all text adventures, Collossal Cave. In
+    order to succeed, your program will need to read in a "story" in the form of
+    a simple DSL, interpret user commands, and track the player's progress and
+    inventory. If you get all that working without too much trouble, I've also
+    included an "extra credit" challenge to implement a basic "puzzle" in the
+    game.
+
+    Here's a sample interaction with a finished implementation of the challenge:
+
+:     $ bin/play.rb data/petite_cave.if
+:     You are standing at the end of a road before a small brick building. Around
+:     you is a forest. A small stream flows out of the building and down a gully.
+:     > north
+:     There is no way to go in that direction.
+:     > east
+:     You are inside a building, a well house for a large spring.
+:     > There are some keys on the ground here.
+:     > There is food here.
+:     > There is a shiny brass lamp nearby.
+:     > There is a bottle of water here.
+:     > get keys
+:     OK
+:     > get food
+:     OK
+:     > get lantern
+:     OK
+:     > get water
+:     OK
+:     > inventory
+:     You are currently holding the following:
+:     > Set of keys
+:     > Tasty food
+:     > Brass lantern
+:     > Small bottle
+:     > west
+:     You're at end of road again.
+:     > s
+:     You are in a valley in the forest beside a stream tumbling along a rocky bed.
+:     > s
+:     At your feet all the water of the stream splashes into a 2-inch slit in the
+:     rock. Downstream the str eambed is bare rock.
+:     > s
+:     You are in a 20-foot depression floored with bare dirt. Set into the dirt is
+:     a strong steel grate mo unted in concrete. A dry streambed leads into the
+:     depression.
+:     > unlock grate
+:     The grate is now unlocked
+:     > enter
+:     You are in a small chamber beneath a 3x3 steel grate to the surface. A low
+:     crawl over cobbles leads inward to the west.
+
+    Here's a sample of the story DSL which defines the adventure:
+
+: Room @end_of_road:
+:   Title: at end of road again
+:   Description:
+:     You are standing at the end of a road before a small brick building.
+:     Around you is a forest.  A small stream flows out of the building and
+:     down a gully.
+:   Exits:
+:     east to @building
+:     enter to @building
+:     south to @valley
+: 
+: Room @building:
+:   Title: inside building
+:   Description:
+:     You are inside a building, a well house for a large spring.
+:   Exits:
+:     west to @end_of_road
+:     exit to @end_of_road
+:   Objects:
+:     $keys
+:     $lamp
+:     $food
+:     $water_bottle
+:
+: Object $keys:
+:   Terms: Set of keys, keys
+:   Description: There are some keys on the ground here.
+: 
+: Object $lamp:
+:   Terms: Brass lantern, brass lamp, lamp, lantern
+:   Description: There is a shiny brass lamp nearby.
+
+*** Getting Started
+    Here are the steps for getting started on your entry:
+
+    1. Clone the Github project TODO
+       : git clone TODO
+    2. Install Cucumber, if you don't have it already
+       : gem install cucumber
+    3. Run the acceptance tests by Rake:
+       : cd rpcfn
+       : rake
+       You should see a failure like this:
+       : no such file to load -- ~/articles/rpcfn/bin/play.rb (LoadError)
+    4. Create the file `bin/play.rb`, and start implementing your text adventure
+       engine. 
+    5. Drive your development by running `rake` periodically to see what's left
+       to implement.
+    7. Make sure your implementation can be run as a standalone executable:
+       : ruby bin/play.rb data/petite_cave.if
+    8. Push your fork to your own Github account
+
+*** Extra Credit
+   If you want an extra challenge, run
+   : rake extra_credit
+   and write code to make those tests pass as well. In order to make the extra
+   credit features work, your engine will have to evaluate arbitrary code from
+   the story file in order to implement guard conditions and custom actions.
+
+*** Requirements
+    TODO
+    
+    * Must use only Ruby standard libraries in your implementation.
+    * The implementation must run on Ruby 1.8.7
+
+*** Hints
+    
+    There are a number of potential ways to go about parsing the story DSL:
+    * You could write a basic recursive-descent parser.
+    * You could use regular expressions
+    * You could use Ruby's standard StringScanner library
+    * You could use regular expressions to convert the text into valid Ruby
+      code, and then eval() the story definition.
+    
+    
