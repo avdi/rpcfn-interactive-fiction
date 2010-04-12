@@ -120,7 +120,10 @@
 :   Terms: Brass lantern, brass lamp, lamp, lantern
 :   Description: There is a shiny brass lamp nearby.
 
-    The full story file can be found at =data/petite_cave.if=.
+    The full story file can be found at =data/petite_cave.if=. This format is
+    one I've invented for this challenge. There is no formal specification for
+    it. Your program is only required to be able to parse the provided file
+    petite_cave.if in order to satisfy the challlenge.
 
 *** Getting Started
     Here are steps for getting started on your entry:
@@ -160,6 +163,10 @@
    - Action scripts return an =Array= of [MESSAGE, BLACKBOARD]. Message must be
      shown to the user if non-nil. The values in BLACKBOARD should be merged
      into the =Hash= returned by =#blackboard=.
+
+  You may find it helpful to define these methods in the class =Game= and then
+  execute the story scripts in the context of your Game object using
+  =#instance_eval=.
 
   The reason story scripts do not directly set values in the blackboard is so
   that it is possible to implement story script execution inside of [[http://www.ruby-doc.org/docs/ProgrammingRuby/taint.html][$SAFE

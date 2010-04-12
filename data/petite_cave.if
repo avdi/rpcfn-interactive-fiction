@@ -100,3 +100,6 @@ Synonyms:
   east: e
   west: w
   look: l, examine
+  take: get, pick up
+  drop: put down
+  inventory: i
