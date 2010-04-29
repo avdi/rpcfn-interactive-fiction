@@ -134,7 +134,7 @@
 
       You should see failure messages. That's because the implementation hasn't
       been written yet! Making the tests pass is up to you.
-   4. I've provided a skeleton =bin/play/rb= to start you off. Edit that file
+   4. I've provided a skeleton =bin/play.rb= to start you off. Edit that file
        to implement your interactive fiction engine.
    5. Drive your development by running =rake= periodically to see what's left
        to implement.
