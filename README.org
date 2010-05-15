@@ -184,6 +184,11 @@
       the better.
 
 *** Hints
+
+    To get an idea of how the finished product should behave, spend a few minutes playing the original Colossal Cave Adventure. If you are on Ubuntu you can install it with:
+    : apt-get install bsdgames
+
+    Or you can play it online here: [[http://www.ifiction.org/games/play.phpz?cat=&game=1&mode=html]]
     
     There are a number of potential ways to go about parsing the story DSL:
     - You could write a basic [[http://en.wikipedia.org/wiki/Recursive_descent_parser][recursive-descent parser]].
