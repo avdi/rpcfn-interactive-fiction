@@ -1,0 +1,15 @@
+[submodule "implementations/aldric-giacomoni"]
+	path = implementations/aldric-giacomoni
+	url = git://gist.github.com/401343.git
+[submodule "implementations/benoit-daloze"]
+	path = implementations/benoit-daloze
+	url = git@gist.github.com:56114e98b2109df8865a.git
+[submodule "implementations/james-martin"]
+	path = implementations/james-martin
+	url = git@gist.github.com:829a163a5135eec612cb.git
+[submodule "implementations/tanzeeb-khalili"]
+	path = implementations/tanzeeb-khalili
+	url = git://gist.github.com/412189.git
+[submodule "implementations/vojto-rinik"]
+	path = implementations/vojto-rinik
+	url = http://github.com/vojto/rpcfn-interactive-fiction.git
