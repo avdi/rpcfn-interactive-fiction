@@ -1,4 +1,191 @@
 * Challenge: Interactive Fiction
+*** Solution Notes
+    Thanks to everyone who entered my Interactive Fiction challenge! Here are some notes on the solutions.
+
+***** Misc.
+      I found it interesting that all but one entrant chose to use a combination
+      of linewise parsing and string matching methods to parse the .if file.
+
+***** Aldric Giacomoni
+
+Good use of String#scan for the parsing.
+
+This solution is tied to the petite_cave.if file - it doesn't generalize to other adventure files.
+
+The use of File.open could be simplified.
+
+: def open file
+:   raw_data = ""
+:   begin
+:     File.open(file, 'r') { |f| raw_data << f.read }
+:   rescue
+:     throw ArgumentError, "File not found or impossible to open."
+:   end
+:   raw_data
+: end
+
+Could instead be:
+
+: def open file
+:   File.open(file, 'r') { |f| f.read }
+: rescue
+:   throw ArgumentError, "File not found or impossible to open."
+: end
+
+Or simply:
+
+: def open file
+:   File.read(file)
+: rescue
+:   throw ArgumentError, "File not found or impossible to open."
+: end
+
+The method #we_know_this...
+
+: def we_know_this command
+:   # Alright; this is kinda hackish. I'm lazy. Sue me.
+:   # I mean, don't. Jeez. Where's your sense of humor?
+:   if @commands.keys.include? command
+:     return @commands[command]
+:   else
+:     return false
+:   end
+: end
+
+Could just be:
+
+: @commands[command]
+
+Since it will return nil if no command is found, and =nil= is a "falsy" value.
+
+Try to avoid the use of local variables when you can:
+
+:   def find_casecmp array, item
+:     found = false
+:     array.each do |x|
+:       if x.casecmp(item) == 0
+:         found = true
+:         break
+:       end
+:     end
+:     found
+:   end
+
+Could be:
+
+:   def find_casecmp array, item
+:     array.each do |x|
+:       return true if x.casecmp(item) == 0
+:     end
+:   end
+
+Or even better:
+
+:   def find_casecmp array, item
+:     array.any? { |x| x.casecmp(item) == 0 }
+:   end
+
+***** Benoit Daloze
+
+Writing a prompt (">") only when run standalone is a nice touch.
+
+This solution is very nicely factored out into small classes and files.
+
+Impressive use of many different built-in String, Enumerable, and Array
+methods. Although this makes the some of the parser code a little too dense to
+easily follow.
+
+I like the use of the #<< operator for adding to inventory and room
+contents. I'm a little dubious about the use of #>> to remove objects from a
+room - it's nonobvious, and using #delete would match Ruby standard libraries
+better.
+
+While for the most part the code neatly divides responsibilities between
+classes, it seems like the parsing code is split between the parser and the
+individual class initializers.
+
+Yay extra credit!
+
+***** James Martin
+
+Nice use of meaningfully-named predicates like #current_room_has_an_exit_named?.
+
+Some of the methods and classes are very long, and could have benefitted from
+being factored into smaller units.
+
+When creating an empty Hash it's a bit more conventional to use {} instead of
+Hash.new.
+
+Prefixing reader methods with "get_" is a Java-style convention. In Ruby, we
+just name the method after what we are getting. E.g. Instead of
+=get_description_of_objects_in_current_room=, just
+=description_of_objects_in_current_room=.
+
+Try to use more specific Enumerable methods when applicable. E.g.
+
+: @rooms.each do |room|
+:   if room["name"] == room_name
+:     @current_room = room
+:   end
+: end
+
+Has the same semantics as:
+
+: if room = @rooms.detect{|room| room["name"] == room_name }
+:   @current_room = room if room
+: end
+
+And:
+
+: items = []
+: @inventory.each do |item|
+:   items << get_object_terms_by_name(item)
+: end
+
+becomes:
+
+: items = @inventory.map { |item| get_object_terms_by_name(item) }
+
+or even:
+
+: items = @inventory.map(&method(:get_object_terms_by_name))
+
+***** Tanzeeb Khalili
+
+This entry is a work of art. It should be mounted on the wall of a museum of
+beautiful code.
+
+The code is neatly broken down into small classes and very short methods.
+
+It makes good use of String/Enumerable built-in methods.
+
+I *love* the pattern where Player#do_* methods become the commands available at
+the command line.
+
+Using reguolar expressions to turn the story definition into executable code
+makes for an astonishingly succinct parser. I'm glad someone chose to go this
+route, because I think it's a great, pragmatic technique for parsing DSLs.
+
+One nitpick: instead of
+
+: @exits[direction] || [nil, GUARDS[:none]]
+
+use:
+
+: @exits.fetch(direction) {[nil, GUARDS[:none]]}
+
+***** Vojto Rinik
+
+The parser tracks offsets (indentation) in the story definition file in order to
+determine the current scope. I like this!
+
+Different responsibilities are nicely factored out into separate classes and
+methods. My only caveat is that, like some of the other solutions, the
+responsibility for parsing the story file seems to be partly split between the
+parser and the classes representing Rooms, etc.
+
+This is an easily-understandable, straightforward solution.
+
 *** Introduction
     [[http://en.wikipedia.org/wiki/Interactive_fiction][Interactive fiction]] (IF) games, also known as text adventures, are computer
     games in which you must rely on your imagination to provide the
@@ -98,7 +285,7 @@
 :     east to @building
 :     enter to @building
 :     south to @valley
-: 
+:
 : Room @building:
 :   Title: inside building
 :   Description:
@@ -115,7 +302,7 @@
 : Object $keys:
 :   Terms: Set of keys, keys
 :   Description: There are some keys on the ground here.
-: 
+:
 : Object $lamp:
 :   Terms: Brass lantern, brass lamp, lamp, lantern
 :   Description: There is a shiny brass lamp nearby.
@@ -189,14 +376,14 @@
     : apt-get install bsdgames
 
     Or you can play it online here: [[http://www.ifiction.org/games/play.phpz?cat=&game=1&mode=html]]
-    
+
     There are a number of potential ways to go about parsing the story DSL:
     - You could write a basic [[http://en.wikipedia.org/wiki/Recursive_descent_parser][recursive-descent parser]].
     - You could use regular expression methods, like [[http://ruby-doc.org/core/classes/String.html#M000812][=String#scan=]]
     - You could use Ruby's standard [[http://ruby-doc.org/core/classes/StringScanner.html][StringScanner]] library
     - You could use regular expression substitutions to convert the text into
       valid Ruby code, and then [[http://ruby-doc.org/core/classes/Kernel.html#M005922][=#eval()=]] the story definition.
-    
+
 *** Conclusion
     Feel free to [[mailto:avdi@avdi.org][contact me]] if something about the challenge is unclear. Good
     Luck, and happy hacking!
